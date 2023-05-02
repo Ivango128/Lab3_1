@@ -66,31 +66,54 @@ OutboardMotor NoName(OutboardMotor& e) {
 int main(){
 	setlocale(LC_ALL, "");
 
+	// Создается указатель на функцию
 	void (OutboardMotor:: * GetInfo) ();
+	
+	// указателю на функцию присваивается на функцию Show
 	GetInfo = &OutboardMotor::Show;
-	OutboardMotor* yamaha = new OutboardMotor{};
-	OutboardMotor* suzuki = new OutboardMotor("сузуки", 5, "4-ех");
-	(*suzuki.*GetInfo)();
-	yamaha->Set("ямаха", 6, "4-ех");
+	
+	// Используется конструктор по умолчанию
+	OutboardMotor* yamaha = new OutboardMotor{}; 
+
+	// Используется конструктор с параметрами
+	OutboardMotor* suzuki = new OutboardMotor("сузуки", 5, "4-ех"); 
+
+	// Вызов функции по указателю на функцию
+	(*suzuki.*GetInfo)(); 
+
+	// Вызов функции по указателю на объект
+	yamaha->Set("ямаха", 6, "4-ех"); 
+
+	// Вызов деструктора
 	delete yamaha;
 
-	OutboardMotor ewew = *suzuki;
-	View(ewew);
+	// создает новый объект ewew класса OutboardMotor, который инициализируется данными из объекта *suzuki  (копирующий конструктор используется по умолчанию)
+	OutboardMotor ewew = *suzuki; 
 
-	OutboardMotor prog(*suzuki);
+	// вызывает функцию View, которая выводит информацию о переданном объекте
+	View(ewew); 
 
+	//(копирующий конструктор используется явно)
+	OutboardMotor prog(*suzuki); 
 
-	OutboardMotor Sessia[3] = {
+	//создает массив Motors из трех объектов Exam, инициализирующихся с помощью различных конструкторов
+	OutboardMotor Motors[3] = {
 		*suzuki, NoName(*suzuki), OutboardMotor("сузуки", 5, "4-ех")
 	};
 
-	OutboardMotor* p = new OutboardMotor[3];
-	(p + 1)->Set("перескачил указатель", 20, "6-ти");
+	// выделяет динамический массив из трех объектов
+	OutboardMotor* p = new OutboardMotor[3]; 
 
-	auto pp = *(p + 1);
+	// устанавливает данные второго элемента массива p с помощью метода Set.
+	(p + 1)->Set("митсубиши", 20, "6-ти"); 
 
+	//  создает новый объект pp класса OutboardMotor, который инициализируется данными из второго элемента массива p
+	auto pp = *(p + 1); 
+
+	// Вызов функции по указателю на функцию
 	(*suzuki.*GetInfo)();
 
+	// создает указатель suzukiptr на объект suzuki и вызывает метод Show через указатель suzukiptr
 	OutboardMotor* suzukiptr = suzuki;
 	suzukiptr->Show();
 
